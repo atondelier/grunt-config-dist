@@ -17,7 +17,7 @@ module.exports = function (grunt) {
 
     //Main process
 
-    grunt.task.registerMultiTask('config', 'Configuration', function () {
+    grunt.task.registerMultiTask('configDist', 'Configuration', function () {
 
         var done = this.async();
         var self = this;
