@@ -1,0 +1,24 @@
+{
+  "name": "grunt-config-dist",
+  "version": "1.0.0",
+  "description": "Grunt task to update a json configuration from an other. Adds what's missing. Warns about what to remove",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atondelier/grunt-config-dist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atondelier/grunt-config-dist/issues"
+  },
+  "homepage": "https://github.com/atondelier/grunt-config-dist#readme",
+  "dependencies": {
+    "fast-json-patch": "0.5.6",
+    "fs-extra-promise": "0.3.1",
+    "lodash": "4.0.1",
+    "prettyjson": "1.1.3"
+  }
+}
