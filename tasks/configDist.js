@@ -32,7 +32,13 @@ module.exports = function (grunt) {
                 },
                 // file does not exist
                 function() {
-                    return copy(self.data.dist, self.data.own);
+                    // Checks if the JSON is valid
+                    return fsp.readJsonAsync(self.data.dist).then(function() {
+                        return copy(self.data.dist, self.data.own);
+                    }, function(error){
+                        grunt.log.warn(error.toString().red);
+                        done(false);
+                    });
                 }
             )
             .then(done, function() { done(false); });
