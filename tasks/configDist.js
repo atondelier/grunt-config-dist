@@ -23,25 +23,27 @@ module.exports = function (grunt) {
         var self = this;
 
         fsp.statAsync(this.data.own)
-            .then(
-                // file exists
-                function() {
-                    return readAllJson(self.data.dist, self.data.own).then(function(files) {
-                        compareAndUpdate(files, self.data.own)
-                    });
-                },
-                // file does not exist
-                function() {
-                    // Checks if the JSON is valid
-                    return fsp.readJsonAsync(self.data.dist).then(function() {
-                        return copy(self.data.dist, self.data.own);
-                    }, function(error){
-                        grunt.log.warn(error.toString().red);
-                        done(false);
-                    });
-                }
-            )
-            .then(done, function() { done(false); });
+           .then(
+               // file exists
+               function() {
+                   return readAllJson(self.data.dist, self.data.own).then(function(files) {
+                       compareAndUpdate(files, self.data.own)
+                   });
+               },
+               // file does not exist
+               function() {
+                   // Checks if the JSON is valid
+                   return fsp.readJsonAsync(self.data.dist).then(function(data) {
+                       return fsp.writeJsonAsync(self.data.own, data).then(function() {
+                           grunt.log.writeln('Configuration file `config.json` successfully created. Please configure it to your needs.'['green']);
+                       });
+                   }, function(error){
+                       grunt.log.warn(error.toString().red);
+                       done(false);
+                   });
+               }
+           )
+           .then(done, function() { done(false); });
     });
 
 
@@ -81,16 +83,4 @@ module.exports = function (grunt) {
             grunt.log.writeln('');
         }
     }
-
-    function copy(distConfigPath, ownConfigPath) {
-
-        var copyPromise = fsp.copyAsync(distConfigPath, ownConfigPath);
-
-        copyPromise.then(function() {
-            grunt.log.writeln('Configuration file `config.json` successfully created. Please configure it to your needs.'['green']);
-        });
-
-        return copyPromise;
-    }
-
 };
